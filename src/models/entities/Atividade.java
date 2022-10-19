@@ -3,6 +3,7 @@ package models.entities;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Atividade {
     int ID;
@@ -82,5 +83,35 @@ public class Atividade {
 
     public void addTarefa(String tarefa, Usuario usuario){
         this.tarefas.put(tarefa, usuario);
+    }
+
+    public void editarUsuarios(ArrayList<Usuario> users) {
+        Scanner scan = new Scanner(System.in);
+        for (Usuario user : this.usuarios){
+            System.out.println("----------------------");
+            System.out.println("ID: " + user.getID() + "\nNome: " + user.getName() + "\nTipo: "+ user.type);
+        }
+        System.out.println("Digite 1 para remover ou 2 para substituir: ");
+        int op = scan.nextInt();
+        scan.nextLine();
+        System.out.println("Digite o ID do usuário: ");
+        int user_id = scan.nextInt();
+        scan.nextLine();
+        if (op==1){
+            this.usuarios.remove(user_id);
+            System.out.println("Usuário removido do projeto com sucesso!");
+        }
+        else if(op==2){
+            for (Usuario user : users){
+                System.out.println("----------------------");
+                System.out.println("ID: " + user.getID() + "\nNome: " + user.getName() + "\nTipo: "+ user.getType());
+            }
+            System.out.println("Digite o ID do aluno que deseja inserir no projeto: ");
+            int user_sub = scan.nextInt();
+            scan.nextLine();
+            Usuario user = users.get(user_sub);
+            this.usuarios.add(user);
+            System.out.println("Usuário substituido com sucesso!");
+        }
     }
 }

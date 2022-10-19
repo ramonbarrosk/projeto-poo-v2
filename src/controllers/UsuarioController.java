@@ -5,41 +5,49 @@ import models.entities.*;
 import java.util.ArrayList;
 
 public class UsuarioController {
-    public static void criarUsuario(ArrayList<Usuario> usuarios, String type, String name, String username, int password){
+    public static Usuario criarUsuario(ArrayList<Usuario> usuarios, String type, String name, String username, int password){
         switch (type) {
             case "DOUTOR":
                 Usuario doutor = new Doutor(type.toUpperCase(), name, username, password);
                 usuarios.add(doutor);
-                break;
+                System.out.println("Usuário criado com sucesso!");
+                return doutor;
             case "GRADUANDO":
                 Usuario graduando = new Graduando(type.toUpperCase(), name, username, password);
                 usuarios.add(graduando);
-                break;
+                System.out.println("Usuário criado com sucesso!");
+                return graduando;
             case "MESTRE":
                 Usuario mestre = new Mestre(type.toUpperCase(), name, username, password);
                 usuarios.add(mestre);
-                break;
+                System.out.println("Usuário criado com sucesso!");
+                return mestre;
             case "PESQUISADOR":
                 Usuario pesquisador = new Pesquisador(type.toUpperCase(), name, username, password);
                 usuarios.add(pesquisador);
-                break;
+                System.out.println("Usuário criado com sucesso!");
+                return pesquisador;
             case "PROFESSOR":
                 Usuario professor = new Professor(type.toUpperCase(), name, username, password);
                 usuarios.add(professor);
-                break;
+                System.out.println("Usuário criado com sucesso!");
+                return professor;
             case "PROFISSIONAL":
                 Usuario profissional = new Profissional(type.toUpperCase(), name, username, password);
                 usuarios.add(profissional);
-                break;
+                System.out.println("Usuário criado com sucesso!");
+                return profissional;
             case "TECNICO":
                 Usuario tecnico = new Tecnico(type.toUpperCase(), name, username, password);
                 usuarios.add(tecnico);
-                break;
+                System.out.println("Usuário criado com sucesso!");
+                return tecnico;
             default:
                 System.out.println("Tipo de usuário inválido!");
+                return null;
 
         }
-        System.out.println("Usuário criado com sucesso!");
+
     }
     public static Usuario buscarUsuario(ArrayList<Usuario> usuarios, int ID){
         for (Usuario usuario : usuarios) {

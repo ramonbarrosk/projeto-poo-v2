@@ -61,7 +61,7 @@ public class Runner {
                     System.out.print("Digite o nome: ");
                     String new_name = scan.nextLine();
                     System.out.print("Digite o tipo de usuário: ");
-                    String new_type = scan.nextLine();
+                    String new_type = scan.nextLine().toUpperCase();
                     System.out.print("Digite o usuário: ");
                     String new_username = scan.nextLine();
                     System.out.print("Digite a senha: ");
@@ -317,14 +317,14 @@ public class Runner {
                         System.out.print("Informe o ID da atividade na qual deseja editar as informações: ");
                         int id = scan.nextInt();
                         scan.nextLine();
-                        Activity activity = find_activity(id, activities);
+                        Atividade atividade = AtividadeController.buscarAtividade(atividades, id);
                         System.out.println("Escolha uma opção:\n 1- Editar descrição\n 2- Editar data de início\n 3 - Editar data de término\n 4 - Editar responsável\n 5 - Editar usuários");
                         int option_edit = scan.nextInt();
                         scan.nextLine();
                         if (option_edit==1){
                             System.out.print("Digite a nova descrição: ");
                             String new_description = scan.nextLine();
-                            activity.setDescription(new_description);
+                            atividade.setDescricao(new_description);
                             System.out.println("Descrição atualizado com sucesso!");
                         }
                         else if (option_edit==2){
@@ -334,7 +334,7 @@ public class Runner {
                             String time_begin_input = scan.nextLine();
                             String datetime_begin_input = date_begin_input + "T" + time_begin_input + ":00";
                             LocalDateTime datetime_begin = LocalDateTime.parse(datetime_begin_input);
-                            activity.setDatetimeBegin(datetime_begin);
+                            atividade.setData_hora_comeco(datetime_begin);
                             System.out.println("Data de início atualizada com sucesso!");
                         }
                         else if (option_edit==3){
@@ -344,37 +344,111 @@ public class Runner {
                             String time_end_input = scan.nextLine();
                             String datetime_end_input = date_end_input + "T" + time_end_input + ":00";
                             LocalDateTime datetime_end = LocalDateTime.parse(datetime_end_input);
-                            activity.setDatetimeEnd(datetime_end);
+                            atividade.setData_hora_fim(datetime_end);
                             System.out.println("Data de término atualizada com sucesso!");
                         }
                         else if (option_edit==4){
-                            list_users(users, "PROFESSOR");
+                            UsuarioController.mostrarUsuariosTipo(usuarios, "PROFESSOR");
                             System.out.print("Digite o ID do novo responsável: ");
                             int user_id = scan.nextInt();
                             scan.nextLine();
-                            User user = find_user(user_id, users);
-                            activity.setManager(user);
+                            Usuario user = UsuarioController.buscarUsuario(usuarios, user_id);
+                            atividade.setResponsavel(user);
                             System.out.println("Responsável atualizado com sucesso!");
                         }
                         else if(option_edit==5){
-                            activity.edit_users(users);
+                            atividade.editarUsuarios(usuarios);
                         }
                     }
-                    else if(option==3){
+                    else if(opcao==3){
                         System.out.print("Informe o ID da ativitidade que deseja remover: ");
                         int id = scan.nextInt();
-                        remove_activity(id, activities);
+                        AtividadeController.removerAtividade(atividades, id);
                         System.out.println("Atividade removida com sucesso!");
                     }
-                    else if (option==4){
-                        list_activities(activities);
+                    else if (opcao==4){
+                        AtividadeController.mostrarAtividades(atividades);
                     }
                     break;
+                case 3:
+                    System.out.println("Escolha uma opção:\n 1- Criar Usuário\n 2- Editar Usuário\n 3- Remover Usuário\n 4- Listar Usuários");
+                    opcao = scan.nextInt();
+                    scan.nextLine();
+
+                    if (opcao==1){
+                        System.out.print("Informe o nome do usuário: ");
+                        String name = scan.nextLine();
+                        System.out.print("Informe o tipo do usuário: ");
+                        String type = scan.nextLine();
+                        System.out.print("Informe o username do usuário: ");
+                        String username = scan.nextLine();
+                        System.out.print("Informe a senha do usuário: ");
+                        int password = scan.nextInt();
+                        scan.nextLine();
+                        Usuario usuario = UsuarioController.criarUsuario(usuarios, type.toUpperCase(), name, username, password);
+                        int ID = usuarios.indexOf(usuario);
+                        usuario.setID(ID);
+                        System.out.println("Usuário criado com sucesso!");
+
+                    }
+                    else if(opcao==2){
+                        UsuarioController.mostrarUsuarios(usuarios);
+                        System.out.print("Informe o ID do usuário o qual deseja editar as informações: ");
+                        int id = scan.nextInt();
+                        scan.nextLine();
+                        Usuario user = UsuarioController.buscarUsuario(usuarios, id);
+                        System.out.println("Escolha uma opção:\n 1- Editar nome\n 2- Editar tipo");
+                        int option_edit = scan.nextInt();
+                        scan.nextLine();
+                        if (option_edit==1){
+                            System.out.print("Digite o novo nome: ");
+                            String new_name = scan.nextLine();
+                            user.setName(new_name);
+                            System.out.println("Nome atualizado com sucesso!");
+                        }
+                        else if (option_edit==2){
+                            System.out.print("Digite o novo tipo: ");
+                            String new_type = scan.nextLine();
+                            user.setType(new_type);
+                            System.out.println("Tipo atualizado com sucesso!");
+                        }
+                    }
+                    else if(opcao==3){
+                        UsuarioController.mostrarUsuarios(usuarios);
+                        System.out.print("Informe o ID do usuário que deseja remover: ");
+                        int user_id = scan.nextInt();
+                        scan.nextLine();
+                        UsuarioController.removerUsuario(usuarios, user_id);
+                        System.out.println("Usuário removido com sucesso!");
+                    }
+                    else if(opcao==4){
+                        UsuarioController.mostrarUsuarios(usuarios);
+                    }
+                    break;
+                case 4:
+                    System.out.println("Todos os projetos cadastrados da unidade Acadêmica:");
+                    for (Projeto project : projetos) {
+                        ProjetoController.mostrarProjeto(project);
+                    }
+                    break;
+                case 5:
+                    System.out.println("Controle de pagamento de bolsa:");
+
+                    for (Projeto project : projetos) {
+                        System.out.println("------------------------");
+                        System.out.println("Projeto sobre " + project.getDescricao());
+                        for (var entry : project.getValores_bolsa().entrySet()) {
+                            System.out.println("Aluno: " + entry.getValue().getName() + " - Bolsa: " + entry.getKey());
+                        }
+                    }
+                    break;
+                case 6:
+                    System.out.println("Você saiu do menu!");
+                    status = false;
+            }
             }
 
         }
-
-    }
 
     private void menu(String usuario){
         System.out.println("Bem vindo " + usuario);
