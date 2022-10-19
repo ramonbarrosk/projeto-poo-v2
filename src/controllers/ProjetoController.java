@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class ProjetoController {
-    public static void criarProjeto(ArrayList<Projeto> projetos, int ID, String descricao, String status, LocalDateTime data_hora_comeco, LocalDateTime data_hora_fim, int cordinator_id, ArrayList<Usuario> usuarios, ArrayList<Atividade> atividades, Map<Double, Usuario> valores_bolsa, int periodo_bolsa){
-        Projeto projeto = new Projeto(ID, descricao, status,data_hora_comeco, data_hora_fim, cordinator_id, usuarios, atividades, valores_bolsa, periodo_bolsa);
+    public static void criarProjeto(ArrayList<Projeto> projetos, String descricao, String status, LocalDateTime data_hora_comeco, LocalDateTime data_hora_fim, int cordinator_id, ArrayList<Usuario> usuarios, ArrayList<Atividade> atividades, Map<Double, Usuario> valores_bolsa, int periodo_bolsa){
+        Projeto projeto = new Projeto(descricao, data_hora_comeco, data_hora_fim, cordinator_id, periodo_bolsa);
         projetos.add(projeto);
     }
 
@@ -41,5 +41,6 @@ public class ProjetoController {
             mostrarProjeto(projeto);
         }
     }
+
 
 }

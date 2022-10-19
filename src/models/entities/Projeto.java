@@ -14,16 +14,11 @@ public class Projeto {
     Map<Double, Usuario> valores_bolsa = new HashMap<>();
     int periodo_bolsa;
 
-    public Projeto(int ID, String descricao, String status, LocalDateTime data_hora_comeco, LocalDateTime data_hora_fim, int cordinator_id, ArrayList<Usuario> usuarios, ArrayList<Atividade> atividades, Map<Double, Usuario> valores_bolsa, int periodo_bolsa) {
-        this.ID = ID;
+    public Projeto(String descricao, LocalDateTime data_hora_comeco, LocalDateTime data_hora_fim, int cordinator_id, int periodo_bolsa) {
         this.descricao = descricao;
-        this.status = status;
         this.data_hora_comeco = data_hora_comeco;
         this.data_hora_fim = data_hora_fim;
         this.cordinator_id = cordinator_id;
-        this.usuarios = usuarios;
-        this.atividades = atividades;
-        this.valores_bolsa = valores_bolsa;
         this.periodo_bolsa = periodo_bolsa;
     }
 
@@ -95,10 +90,6 @@ public class Projeto {
         return valores_bolsa;
     }
 
-    public void setValores_bolsa(Map<Double, Usuario> valores_bolsa) {
-        this.valores_bolsa = valores_bolsa;
-    }
-
     public int getPeriodo_bolsa() {
         return periodo_bolsa;
     }
@@ -117,5 +108,73 @@ public class Projeto {
 
     public void addAtividade(Atividade atividade){
         this.atividades.add(atividade);
+    }
+
+    public void editarUsuarios(ArrayList<Usuario> usuarios) {
+        Scanner scan = new Scanner(System.in);
+        for (Usuario user : this.usuarios){
+            System.out.println("----------------------");
+            System.out.println("ID: " + user.getID() + "\nNome: " + user.getName() + "\nTipo: "+ user.type);
+        }
+        System.out.println("Digite 1 para remover ou 2 para substituir: ");
+        int op = scan.nextInt();
+        scan.nextLine();
+        System.out.println("Digite o ID do usuário: ");
+        int user_id = scan.nextInt();
+        scan.nextLine();
+        if (op==1){
+            this.usuarios.remove(user_id);
+            System.out.println("Usuário removido do projeto com sucesso!");
+        }
+        else if(op==2){
+            for (Usuario usuario : usuarios){
+                System.out.println("----------------------");
+                System.out.println("ID: " + usuario.getID() + "\nNome: " + usuario.getName() + "\nTipo: "+ usuario.getType());
+            }
+            System.out.println("Digite o ID do aluno que deseja inserir no projeto: ");
+            int user_sub = scan.nextInt();
+            scan.nextLine();
+            Usuario user = usuarios.get(user_sub);
+            this.usuarios.add(user);
+            System.out.println("Usuário substituido com sucesso!");
+        }
+    }
+
+    public void setValores_bolsa(Double value, Usuario user) {
+        for (var entry : this.valores_bolsa.entrySet()) {
+            if (entry.getValue().getName() == user.getName()){
+                this.valores_bolsa.put(value, user);
+            }
+        }
+    }
+
+    public void editarAtividades(ArrayList<Atividade> atividades) {
+        Scanner scan = new Scanner(System.in);
+        for (Atividade activity: this.atividades){
+            System.out.println("----------------------");
+            System.out.println("ID: " + activity.ID + "\nDescrição: " + activity.getDescricao());
+        }
+        System.out.println("Digite 1 para remover ou 2 para substituir: ");
+        int op = scan.nextInt();
+        scan.nextLine();
+        System.out.println("Digite o ID da atividade: ");
+        int activity_id = scan.nextInt();
+        scan.nextLine();
+        if (op==1){
+            this.atividades.remove(activity_id);
+            System.out.println("Atividade removida do projeto com sucesso!");
+        }
+        else if(op==2){
+            for (Atividade activity: atividades){
+                System.out.println("----------------------");
+                System.out.println("ID: " + activity.ID + "\nDescrição: " + activity.getDescricao());
+            }
+            System.out.println("Digite o ID da atividade que deseja inserir no projeto: ");
+            int activity_sub = scan.nextInt();
+            scan.nextLine();
+            Usuario user = usuarios.get(activity_sub);
+            this.usuarios.add(user);
+            System.out.println("Atividade substituida com sucesso!");
+        }
     }
 }

@@ -8,8 +8,7 @@ public class Usuario implements User{
     private String username;
     private int password;
 
-    public Usuario(int ID, String type, String name, String username, int password) {
-        this.ID = ID;
+    public Usuario(String type, String name, String username, int password) {
         this.type = type;
         this.name = name;
         this.username = username;

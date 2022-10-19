@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class AtividadeController {
-    public static void criarAtividade(ArrayList<Atividade> atividades, int ID, String descricao, LocalDateTime data_hora_comeco, LocalDateTime data_hora_fim, Usuario responsavel, ArrayList<Usuario> usuarios, Map<String, Usuario> tarefas){
-        Atividade atividade = new Atividade(ID, descricao, data_hora_comeco, data_hora_fim, responsavel, usuarios, tarefas);
+    public static void criarAtividade(ArrayList<Atividade> atividades, String descricao, LocalDateTime data_hora_comeco, LocalDateTime data_hora_fim, Usuario responsavel, ArrayList<Usuario> usuarios, Map<String, Usuario> tarefas){
+        Atividade atividade = new Atividade(descricao, data_hora_comeco, data_hora_fim, responsavel, usuarios, tarefas);
         atividades.add(atividade);
     }
 
