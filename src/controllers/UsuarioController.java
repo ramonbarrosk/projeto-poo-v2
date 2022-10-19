@@ -7,34 +7,37 @@ import java.util.ArrayList;
 public class UsuarioController {
     public static void criarUsuario(ArrayList<Usuario> usuarios, String type, String name, String username, int password){
         switch (type) {
-            case "Doutor":
-                Usuario doutor = new Doutor(type, name, username, password);
+            case "DOUTOR":
+                Usuario doutor = new Doutor(type.toUpperCase(), name, username, password);
                 usuarios.add(doutor);
                 break;
-            case "Graduando":
-                Usuario graduando = new Graduando(type, name, username, password);
+            case "GRADUANDO":
+                Usuario graduando = new Graduando(type.toUpperCase(), name, username, password);
                 usuarios.add(graduando);
                 break;
-            case "Mestre":
-                Usuario mestre = new Mestre(type, name, username, password);
+            case "MESTRE":
+                Usuario mestre = new Mestre(type.toUpperCase(), name, username, password);
                 usuarios.add(mestre);
                 break;
-            case "Pesquisador":
-                Usuario pesquisador = new Pesquisador(type, name, username, password);
+            case "PESQUISADOR":
+                Usuario pesquisador = new Pesquisador(type.toUpperCase(), name, username, password);
                 usuarios.add(pesquisador);
                 break;
-            case "Professor":
-                Usuario professor = new Professor(type, name, username, password);
+            case "PROFESSOR":
+                Usuario professor = new Professor(type.toUpperCase(), name, username, password);
                 usuarios.add(professor);
                 break;
-            case "Profissional":
-                Usuario profissional = new Profissional(type, name, username, password);
+            case "PROFISSIONAL":
+                Usuario profissional = new Profissional(type.toUpperCase(), name, username, password);
                 usuarios.add(profissional);
                 break;
-            case "Tecnico":
-                Usuario tecnico = new Tecnico(type, name, username, password);
+            case "TECNICO":
+                Usuario tecnico = new Tecnico(type.toUpperCase(), name, username, password);
                 usuarios.add(tecnico);
                 break;
+            default:
+                System.out.println("Tipo de usuário inválido!");
+
         }
         System.out.println("Usuário criado com sucesso!");
     }

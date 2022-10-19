@@ -10,6 +10,7 @@ import models.entities.Usuario;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Runner {
@@ -21,7 +22,7 @@ public class Runner {
         ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
         ArrayList<Atividade> atividades = new ArrayList<Atividade>();
         ArrayList<Projeto> projetos = new ArrayList<Projeto>();
-        cadastro();
+
         int opcao;
         Scanner scan = new Scanner(System.in);
 
@@ -39,17 +40,22 @@ public class Runner {
                     System.out.print("Digite seu usuário: ");
                     String username = scan.nextLine();
                     System.out.print("Digite sua senha: ");
+                    try{
                     int password = scan.nextInt();
-                    scan.nextLine();
                     Boolean statusLogin = AutenticaoController.loginUsuario(usuarios, username, password);
-                    if (statusLogin == false){
-                        System.out.println("Usuário ou senha incorreta");
+                        if (statusLogin == false){
+                            System.out.println("Usuário ou senha incorreta");
+                        }
+                        else{
+                            usuario_corrente = username;
+                            opcao_menu = 4;
+                            status = true;
+                        }
+                    }catch (InputMismatchException e){
+                        System.out.println("Erro: Senha só aceita número");
                     }
-                    else{
-                        usuario_corrente = username;
-                        opcao_menu = 4;
-                        status = true;
-                    }
+                    scan.nextLine();
+
                     break;
                 case 2:
                     System.out.print("Digite o nome: ");
@@ -69,9 +75,13 @@ public class Runner {
                 case 3:
                     System.out.println("Digite seu usuário: ");
                     String novo_username = scan.nextLine();
-                    System.out.println("Digite sua nova senha ");
-                    int nova_senha = scan.nextInt();
-                    AutenticaoController.recuperarSenha(usuarios, novo_username, nova_senha);
+                    Boolean status_recuperar = AutenticaoController.recuperarSenha(usuarios, novo_username);
+                    if (status_recuperar){
+                        System.out.println("Senha recuperada com sucesso!");
+                    }
+                    else{
+                        System.out.println("Usuário não encontrado!");
+                    }
                     break;
             }
         }
@@ -251,7 +261,115 @@ public class Runner {
                     }
 
                     break;
+                case 2:
+                    System.out.println("Escolha uma opção:\n 1- Criar Atividade\n 2- Editar Atividade\n 3- Remover Atividade\n 4- Listar Atividades");
+                    opcao = scan.nextInt();
+                    scan.nextLine();
+                    if (opcao==1){
+                        System.out.print("Informe a descrição da atividade: ");
+                        String description = scan.nextLine();
+                        System.out.print("Informe a data de início do projeto (YYYY-MM-DD): ");
+                        String date_begin_input = scan.nextLine();
+                        System.out.print("Informe a hora de início do projeto (HH:MM): ");
+                        String time_begin_input = scan.nextLine();
+                        String datetime_begin_input = date_begin_input + "T" + time_begin_input + ":00";
+                        LocalDateTime datetime_begin = LocalDateTime.parse(datetime_begin_input);
+                        System.out.print("Informe a data de término do projeto (YYYY-MM-DD): ");
+                        String date_end_input = scan.nextLine();
+                        System.out.print("Informe a hora de término do projeto (HH:MM): ");
+                        String time_end_input = scan.nextLine();
+                        String datetime_end_input = date_begin_input + "T" + time_begin_input + ":00";
+                        LocalDateTime datetime_end = LocalDateTime.parse(datetime_end_input);
+                        UsuarioController.mostrarUsuariosTipo(usuarios, "PROFESSOR");
+                        System.out.print("Informe o ID do usuário responsável pela atividade: ");
+                        int user_id = scan.nextInt();
+                        scan.nextLine();
+                        Usuario manager = UsuarioController.buscarUsuario(usuarios, user_id);
+                        Atividade atividade = AtividadeController.criarAtividade(atividades, description, datetime_begin, datetime_end, manager);
 
+                        UsuarioController.mostrarUsuariosTipo(usuarios, "ALUNO");
+                        System.out.print("Quantos usuários vão participar dessa atividade? ");
+                        int size = scan.nextInt();
+                        scan.nextLine();
+                        for (int i = 0; i < size; i++){
+                            System.out.print("Informe o ID do usuário: ");
+                            int id = scan.nextInt();
+                            scan.nextLine();
+                            Usuario usuario = UsuarioController.buscarUsuario(usuarios, id);
+                            atividade.addUsuario(usuario);
+                        }
+
+                        ArrayList<Usuario> users_activity = atividade.getUsuarios();
+
+                        for (Usuario usuario : users_activity) {
+                            System.out.print("Qual tarefa " + usuario.getName() + " vai realizar? ");
+                            String task = scan.nextLine();
+                            atividade.addTarefa(task, usuario);
+                        }
+
+                        atividades.add(atividade);
+                        int ID = atividades.indexOf(atividade);
+                        atividade.setID(ID);
+                        System.out.println("Atividade criada com sucesso!");
+                    }
+                    else if(opcao==2){
+                        AtividadeController.mostrarAtividades(atividades);
+                        System.out.print("Informe o ID da atividade na qual deseja editar as informações: ");
+                        int id = scan.nextInt();
+                        scan.nextLine();
+                        Activity activity = find_activity(id, activities);
+                        System.out.println("Escolha uma opção:\n 1- Editar descrição\n 2- Editar data de início\n 3 - Editar data de término\n 4 - Editar responsável\n 5 - Editar usuários");
+                        int option_edit = scan.nextInt();
+                        scan.nextLine();
+                        if (option_edit==1){
+                            System.out.print("Digite a nova descrição: ");
+                            String new_description = scan.nextLine();
+                            activity.setDescription(new_description);
+                            System.out.println("Descrição atualizado com sucesso!");
+                        }
+                        else if (option_edit==2){
+                            System.out.print("Informe a nova data de início do projeto (YYYY-MM-DD): ");
+                            String date_begin_input = scan.nextLine();
+                            System.out.print("Informe a nova hora de início do projeto (HH:MM): ");
+                            String time_begin_input = scan.nextLine();
+                            String datetime_begin_input = date_begin_input + "T" + time_begin_input + ":00";
+                            LocalDateTime datetime_begin = LocalDateTime.parse(datetime_begin_input);
+                            activity.setDatetimeBegin(datetime_begin);
+                            System.out.println("Data de início atualizada com sucesso!");
+                        }
+                        else if (option_edit==3){
+                            System.out.print("Informe a nova data de término do projeto (YYYY-MM-DD): ");
+                            String date_end_input = scan.nextLine();
+                            System.out.print("Informe a nova hora de término do projeto (HH:MM): ");
+                            String time_end_input = scan.nextLine();
+                            String datetime_end_input = date_end_input + "T" + time_end_input + ":00";
+                            LocalDateTime datetime_end = LocalDateTime.parse(datetime_end_input);
+                            activity.setDatetimeEnd(datetime_end);
+                            System.out.println("Data de término atualizada com sucesso!");
+                        }
+                        else if (option_edit==4){
+                            list_users(users, "PROFESSOR");
+                            System.out.print("Digite o ID do novo responsável: ");
+                            int user_id = scan.nextInt();
+                            scan.nextLine();
+                            User user = find_user(user_id, users);
+                            activity.setManager(user);
+                            System.out.println("Responsável atualizado com sucesso!");
+                        }
+                        else if(option_edit==5){
+                            activity.edit_users(users);
+                        }
+                    }
+                    else if(option==3){
+                        System.out.print("Informe o ID da ativitidade que deseja remover: ");
+                        int id = scan.nextInt();
+                        remove_activity(id, activities);
+                        System.out.println("Atividade removida com sucesso!");
+                    }
+                    else if (option==4){
+                        list_activities(activities);
+                    }
+                    break;
             }
 
         }

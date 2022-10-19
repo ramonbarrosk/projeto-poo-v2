@@ -17,17 +17,17 @@ public class AutenticaoController {
         return false;
     }
 
-    public static void recuperarSenha(ArrayList<Usuario> usuarios, String username, int senha){
+    public static Boolean recuperarSenha(ArrayList<Usuario> usuarios, String username){
         for (Usuario usuario : usuarios) {
-            if(usuario.getUsername() == username){
+            if(usuario.getUsername().equals(username)) {
                 System.out.print("Digite sua nova senha: ");
                 Scanner scan = new Scanner(System.in);
                 int nova_senha = scan.nextInt();
                 Usuario usuario_encontrado = UsuarioController.buscarUsuario(usuarios, usuario.getID());
-                usuario_encontrado.setPassword(senha);
-                System.out.print("Senha recuperada com sucesso!\n");
+                usuario_encontrado.setPassword(nova_senha);
+                return true;
             }
-            System.out.println("Usuário não encontrado!\n");
         }
+        return false;
     }
 }

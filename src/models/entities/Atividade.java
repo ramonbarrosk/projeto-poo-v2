@@ -13,13 +13,11 @@ public class Atividade {
     ArrayList<Usuario> usuarios;
     Map<String, Usuario> tarefas;
 
-    public Atividade(String descricao, LocalDateTime data_hora_comeco, LocalDateTime data_hora_fim, Usuario responsavel, ArrayList<Usuario> usuarios, Map<String, Usuario> tarefas) {
+    public Atividade(String descricao, LocalDateTime data_hora_comeco, LocalDateTime data_hora_fim, Usuario responsavel) {
         this.descricao = descricao;
         this.data_hora_comeco = data_hora_comeco;
         this.data_hora_fim = data_hora_fim;
         this.responsavel = responsavel;
-        this.usuarios = usuarios;
-        this.tarefas = tarefas;
     }
 
     public int getID() {
