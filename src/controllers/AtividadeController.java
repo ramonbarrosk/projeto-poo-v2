@@ -33,7 +33,7 @@ public class AtividadeController {
     }
 
     public static void mostrarAtividade(Atividade atividade){
-        System.out.println("ID: " + atividade.getID() + "Descrição: " + atividade.getDescricao() + "Data de início: " + atividade.getData_hora_comeco() + "Data de término: " + atividade.getData_hora_fim() + "Responsável: " + atividade.getResponsavel());
+        System.out.println("ID: " + atividade.getID() + "\nDescrição: " + atividade.getDescricao() + "\nData de início: " + atividade.getData_hora_comeco() + "\nData de término: " + atividade.getData_hora_fim() + "\nResponsável: " + atividade.getResponsavel());
         UsuarioController.mostrarUsuarios(atividade.getUsuarios());
     }
 

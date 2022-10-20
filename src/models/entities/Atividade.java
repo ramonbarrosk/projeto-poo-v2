@@ -2,6 +2,7 @@ package models.entities;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -19,6 +20,8 @@ public class Atividade {
         this.data_hora_comeco = data_hora_comeco;
         this.data_hora_fim = data_hora_fim;
         this.responsavel = responsavel;
+        this.usuarios = new ArrayList<Usuario>();
+        this.tarefas = new HashMap<String, Usuario>();
     }
 
     public int getID() {

@@ -8,10 +8,9 @@ import models.entities.Atividade;
 import models.entities.Projeto;
 import models.entities.Usuario;
 
+import java.sql.SQLOutput;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 public class Runner {
     public Runner(){
@@ -22,6 +21,10 @@ public class Runner {
         ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
         ArrayList<Atividade> atividades = new ArrayList<Atividade>();
         ArrayList<Projeto> projetos = new ArrayList<Projeto>();
+
+        UsuarioController.criarUsuario(usuarios,"MESTRE", "Ramon", "ramonbarros", 123);
+        UsuarioController.criarUsuario(usuarios,"DOUTOR", "Felipe", "felipinho", 123);
+        UsuarioController.criarUsuario(usuarios,"PROFESSOR", "Diego", "diego", 123);
 
         int opcao;
         Scanner scan = new Scanner(System.in);
@@ -40,22 +43,17 @@ public class Runner {
                     System.out.print("Digite seu usuário: ");
                     String username = scan.nextLine();
                     System.out.print("Digite sua senha: ");
-                    try{
                     int password = scan.nextInt();
                     Boolean statusLogin = AutenticaoController.loginUsuario(usuarios, username, password);
-                        if (statusLogin == false){
-                            System.out.println("Usuário ou senha incorreta");
-                        }
-                        else{
-                            usuario_corrente = username;
-                            opcao_menu = 4;
-                            status = true;
-                        }
-                    }catch (InputMismatchException e){
-                        System.out.println("Erro: Senha só aceita número");
+                    if (statusLogin == false){
+                        System.out.println("Usuário ou senha incorreta");
+                    }
+                    else{
+                        usuario_corrente = username;
+                        opcao_menu = 4;
+                        status = true;
                     }
                     scan.nextLine();
-
                     break;
                 case 2:
                     System.out.print("Digite o nome: ");
@@ -113,7 +111,7 @@ public class Runner {
                         String datetime_end_input = date_begin_input + "T" + time_begin_input + ":00";
                         LocalDateTime datetime_end = LocalDateTime.parse(datetime_end_input);
 
-                        UsuarioController.mostrarUsuariosTipo(usuarios, "COORDENADOR");
+                        mostrarResponsaveis(usuarios);
 
                         System.out.print("Informe o ID do coordenador do projeto: ");
                         int id_cordinator = scan.nextInt();
@@ -127,7 +125,7 @@ public class Runner {
 
                         Projeto projeto = new Projeto(description, datetime_begin, datetime_end, coordenador.getID(), scholarship_period);
 
-                        UsuarioController.mostrarUsuariosTipo(usuarios, "ALUNO");
+                        mostrarAlunos(usuarios);
 
                         System.out.print("Quantos usuários vão participar desse projeto? ");
                         int size = scan.nextInt();
@@ -161,17 +159,17 @@ public class Runner {
                         }
                         projeto.setStatus("Em processo de criação");
                         projetos.add(projeto);
-                        int ID = projetos.indexOf(projeto);
-                        projeto.setID(ID);
+                        int proj_id = projetos.indexOf(projeto);
+                        projeto.setID(proj_id);
                         System.out.println("Projeto criado com sucesso!");
                     }
 
                     else if (opcao ==2){
                         ProjetoController.mostrarProjetos(projetos);
                         System.out.print("Informe o ID do projeto que deseja editar: ");
-                        int ID = scan.nextInt();
+                        int projeto_id = scan.nextInt();
                         scan.nextLine();
-                        Projeto project = ProjetoController.buscarProjeto(projetos, ID);
+                        Projeto project = ProjetoController.buscarProjeto(projetos, projeto_id);
                         System.out.println("Escolha uma opção:\n 1- Editar descrição\n 2- Editar data de início\n 3 - Editar data de término\n 4 - Editar coordenador\n 5 - Editar status\n 6 - Editar período da bolsa\n 7 - Editar usuários associados a atividade\n 8 - Editar valor da bolsa\n 9 - Editar atividades");
                         int option_edit = scan.nextInt();
                         scan.nextLine();
@@ -205,7 +203,7 @@ public class Runner {
                         }
 
                         else if (option_edit==4){
-                            UsuarioController.mostrarUsuariosTipo(usuarios, "COORDENADOR");
+                            mostrarResponsaveis(usuarios);
                             System.out.print("Digite o ID do novo coordenador: ");
                             int user_id = scan.nextInt();
                             Usuario user = UsuarioController.buscarUsuario(usuarios, user_id);
@@ -236,7 +234,7 @@ public class Runner {
                             project.editarUsuarios(usuarios);
                         }
                         else if (option_edit==8){
-                            UsuarioController.mostrarUsuariosTipo(usuarios, "ALUNO");
+                            mostrarAlunos(usuarios);
                             System.out.print("Digite o ID do usuário: ");
                             int user_id = scan.nextInt();
                             Usuario user = UsuarioController.buscarUsuario(usuarios, user_id);
@@ -280,14 +278,13 @@ public class Runner {
                         String time_end_input = scan.nextLine();
                         String datetime_end_input = date_begin_input + "T" + time_begin_input + ":00";
                         LocalDateTime datetime_end = LocalDateTime.parse(datetime_end_input);
-                        UsuarioController.mostrarUsuariosTipo(usuarios, "PROFESSOR");
+                        mostrarResponsaveis(usuarios);
                         System.out.print("Informe o ID do usuário responsável pela atividade: ");
                         int user_id = scan.nextInt();
                         scan.nextLine();
                         Usuario manager = UsuarioController.buscarUsuario(usuarios, user_id);
                         Atividade atividade = AtividadeController.criarAtividade(atividades, description, datetime_begin, datetime_end, manager);
-
-                        UsuarioController.mostrarUsuariosTipo(usuarios, "ALUNO");
+                        mostrarAlunos(usuarios);
                         System.out.print("Quantos usuários vão participar dessa atividade? ");
                         int size = scan.nextInt();
                         scan.nextLine();
@@ -306,10 +303,8 @@ public class Runner {
                             String task = scan.nextLine();
                             atividade.addTarefa(task, usuario);
                         }
-
-                        atividades.add(atividade);
-                        int ID = atividades.indexOf(atividade);
-                        atividade.setID(ID);
+                        int atv_id = atividades.indexOf(atividade);
+                        atividade.setID(atv_id);
                         System.out.println("Atividade criada com sucesso!");
                     }
                     else if(opcao==2){
@@ -348,7 +343,7 @@ public class Runner {
                             System.out.println("Data de término atualizada com sucesso!");
                         }
                         else if (option_edit==4){
-                            UsuarioController.mostrarUsuariosTipo(usuarios, "PROFESSOR");
+                            mostrarResponsaveis(usuarios);
                             System.out.print("Digite o ID do novo responsável: ");
                             int user_id = scan.nextInt();
                             scan.nextLine();
@@ -386,8 +381,6 @@ public class Runner {
                         int password = scan.nextInt();
                         scan.nextLine();
                         Usuario usuario = UsuarioController.criarUsuario(usuarios, type.toUpperCase(), name, username, password);
-                        int ID = usuarios.indexOf(usuario);
-                        usuario.setID(ID);
                         System.out.println("Usuário criado com sucesso!");
 
                     }
@@ -459,5 +452,15 @@ public class Runner {
         System.out.println("Bem vindo ao sistema de gerenciamento de projetos!");
         System.out.println("\n1 - Login\n2 - Cadastrar\n3 - Esqueci minha senha\n4 - Sair do sistema");
         System.out.print("Escolha uma opção: ");
+    }
+
+    private void mostrarAlunos(ArrayList<Usuario> usuarios){
+        ArrayList<String> alunos = new ArrayList<String>(Arrays.asList("DOUTOR", "GRADUANDO", "MESTRE", "PROFISSIONAL", "TECNICO"));
+        UsuarioController.mostrarUsuariosTipo(usuarios, alunos);
+    }
+
+    private void mostrarResponsaveis(ArrayList<Usuario> usuarios){
+        ArrayList<String> responsaveis = new ArrayList<String>(Arrays.asList("PROFESSOR", "PESQUISADOR"));
+        UsuarioController.mostrarUsuariosTipo(usuarios, responsaveis);
     }
 }

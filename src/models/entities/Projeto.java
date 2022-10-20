@@ -20,6 +20,7 @@ public class Projeto {
         this.data_hora_fim = data_hora_fim;
         this.cordinator_id = cordinator_id;
         this.periodo_bolsa = periodo_bolsa;
+        this.valores_bolsa = new HashMap<Double, Usuario>();
     }
 
     public int getID() {
