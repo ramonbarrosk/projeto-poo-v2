@@ -6,62 +6,9 @@ import java.util.ArrayList;
 
 public class UsuarioController {
     public static Usuario criarUsuario(ArrayList<Usuario> usuarios, String type, String name, String username, int password){
-        switch (type) {
-            case "DOUTOR":
-                Usuario doutor = new Doutor(type.toUpperCase(), name, username, password);
-                usuarios.add(doutor);
-                int doutor_id = usuarios.indexOf(doutor);
-                doutor.setID(doutor_id);
-                System.out.println("Usuário criado com sucesso!");
-                return doutor;
-            case "GRADUANDO":
-                Usuario graduando = new Graduando(type.toUpperCase(), name, username, password);
-                usuarios.add(graduando);
-                int graduando_id = usuarios.indexOf(graduando);
-                graduando.setID(graduando_id);
-                System.out.println("Usuário criado com sucesso!");
-                return graduando;
-            case "MESTRE":
-                Usuario mestre = new Mestre(type.toUpperCase(), name, username, password);
-                usuarios.add(mestre);
-                int mestre_id = usuarios.indexOf(mestre);
-                mestre.setID(mestre_id);
-                System.out.println("Usuário criado com sucesso!");
-                return mestre;
-            case "PESQUISADOR":
-                Usuario pesquisador = new Pesquisador(type.toUpperCase(), name, username, password);
-                usuarios.add(pesquisador);
-                int pesquisador_id = usuarios.indexOf(pesquisador);
-                pesquisador.setID(pesquisador_id);
-                System.out.println("Usuário criado com sucesso!");
-                return pesquisador;
-            case "PROFESSOR":
-                Usuario professor = new Professor(type.toUpperCase(), name, username, password);
-                usuarios.add(professor);
-                int professor_id = usuarios.indexOf(professor);
-                professor.setID(professor_id);
-                System.out.println("Usuário criado com sucesso!");
-                return professor;
-            case "PROFISSIONAL":
-                Usuario profissional = new Profissional(type.toUpperCase(), name, username, password);
-                usuarios.add(profissional);
-                int profissional_id = usuarios.indexOf(profissional);
-                profissional.setID(profissional_id);
-                System.out.println("Usuário criado com sucesso!");
-                return profissional;
-            case "TECNICO":
-                Usuario tecnico = new Tecnico(type.toUpperCase(), name, username, password);
-                usuarios.add(tecnico);
-                int tecnico_id = usuarios.indexOf(tecnico);
-                tecnico.setID(tecnico_id);
-                System.out.println("Usuário criado com sucesso!");
-                return tecnico;
-            default:
-                System.out.println("Tipo de usuário inválido!");
-                return null;
+        Usuario usuario = UsuarioFactory.getUsuario(type, name, username, password);
 
-        }
-
+        return usuario;
     }
     public static Usuario buscarUsuario(ArrayList<Usuario> usuarios, int ID){
         for (Usuario usuario : usuarios) {

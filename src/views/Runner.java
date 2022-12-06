@@ -5,7 +5,6 @@ import models.entities.Atividade;
 import models.entities.Projeto;
 import models.entities.Usuario;
 
-import java.sql.SQLOutput;
 import java.time.LocalDateTime;
 import java.util.*;
 

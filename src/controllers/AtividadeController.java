@@ -1,12 +1,10 @@
 package controllers;
 
 import models.entities.Atividade;
-import models.entities.Doutor;
 import models.entities.Usuario;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class AtividadeController {
     public static Atividade criarAtividade(ArrayList<Atividade> atividades, String descricao, LocalDateTime data_hora_comeco, LocalDateTime data_hora_fim, Usuario responsavel){
