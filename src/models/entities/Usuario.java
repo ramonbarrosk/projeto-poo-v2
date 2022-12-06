@@ -46,4 +46,9 @@ public abstract class Usuario {
     public void setPassword(int password) {
         this.password = password;
     }
+
+    public void recebeNotificao(String status){
+        System.out.println("Usuario: " + this.name + " Tipo: " + this.type + " recebeu a notificação da alteração do status para " + status);
+    }
+
 }

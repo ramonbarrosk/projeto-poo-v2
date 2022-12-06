@@ -16,7 +16,9 @@ public class Runner {
     public Runner(){
         UsuarioController.criarUsuario(usuarios,"MESTRE", "Ramon", "ramonbarros", 123);
         UsuarioController.criarUsuario(usuarios,"DOUTOR", "Felipe", "felipinho", 123);
-        UsuarioController.criarUsuario(usuarios,"PROFESSOR", "Diego", "diego", 123);
+        Usuario professor = UsuarioController.criarUsuario(usuarios,"PROFESSOR", "Diego", "diego", 123);
+        LocalDateTime data = LocalDateTime.parse("2022-10-10T20:20");
+        AtividadeController.criarAtividade(atividades, "Teste", data, data, professor);
         this.run();
     }
 

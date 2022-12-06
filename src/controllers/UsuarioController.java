@@ -7,7 +7,10 @@ import java.util.ArrayList;
 public class UsuarioController {
     public static Usuario criarUsuario(ArrayList<Usuario> usuarios, String type, String name, String username, int password){
         Usuario usuario = UsuarioFactory.getUsuario(type, name, username, password);
-
+        usuarios.add(usuario);
+        int usuario_id = usuarios.indexOf(usuario);
+        usuario.setID(usuario_id);
+        System.out.println("Usuário criado com sucesso!");
         return usuario;
     }
     public static Usuario buscarUsuario(ArrayList<Usuario> usuarios, int ID){
