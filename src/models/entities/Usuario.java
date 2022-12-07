@@ -1,19 +1,11 @@
 package models.entities;
-import models.interfaces.User;
 
-public class Usuario implements User{
-    private int ID;
-    String type;
-    private String name;
-    private String username;
-    private int password;
-
-    public Usuario(String type, String name, String username, int password) {
-        this.type = type;
-        this.name = name;
-        this.username = username;
-        this.password = password;
-    }
+public abstract class Usuario {
+    public int ID;
+    public String type;
+    public String name;
+    public String username;
+    public int password;
 
     public int getID() {
         return ID;
@@ -54,4 +46,9 @@ public class Usuario implements User{
     public void setPassword(int password) {
         this.password = password;
     }
+
+    public void recebeNotificao(String status){
+        System.out.println("Usuario: " + this.name + " Tipo: " + this.type + " recebeu a notificação da alteração do status para " + status);
+    }
+
 }

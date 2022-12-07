@@ -45,6 +45,7 @@ public class Projeto {
 
     public void setStatus(String status) {
         this.status = status;
+        notificarUsuarios();
     }
 
     public LocalDateTime getData_hora_comeco() {
@@ -73,6 +74,12 @@ public class Projeto {
 
     public ArrayList<Usuario> getUsuarios() {
         return usuarios;
+    }
+
+    public void notificarUsuarios() {
+        for (Usuario user : this.usuarios){
+            user.recebeNotificao(this.status);
+        }
     }
 
     public void setUsuarios(ArrayList<Usuario> usuarios) {
