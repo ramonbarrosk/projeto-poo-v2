@@ -3,20 +3,22 @@ package models.entities;
 public class UsuarioFactory {
     public static Usuario getUsuario(String tipo, String name, String username, int password){
         switch (tipo){
-            case "DOUTOR":
+            case "Doutor":
                 return new Doutor(tipo, name, username, password);
-            case "GRADUANDO":
+            case "Graduando":
                 return new Graduando(tipo, name, username, password);
-            case "MESTRE":
+            case "Mestre":
                 return new Mestre(tipo, name, username, password);
-            case "PESQUISADOR":
+            case "Pesquisador":
                 return new Pesquisador(tipo, name, username, password);
-            case "PROFESSOR":
+            case "Professor":
                 return new Professor(tipo, name, username, password);
-            case "PROFISSIONAL":
+            case "Profissional":
                 return new Profissional(tipo, name, username, password);
-            case "TECNICO":
+            case "Tecnico":
                 return new Tecnico(tipo, name, username, password);
+            default:
+                System.out.println("Tipo de usuário inválido!");
         }
         return null;
     }
